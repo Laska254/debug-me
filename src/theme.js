@@ -1,6 +1,7 @@
+import { Color } from "three";
+
 /**
  * Dark IDE neon palette shared by the scene and the HTML overlays.
- * main.js exposes every entry to CSS as a kebab-case custom property, e.g. `gridAccent` -> `var(--grid-accent)`.
  */
 export const palette = {
     background: 0x1e1f22,
@@ -9,3 +10,13 @@ export const palette = {
     gridAccent: 0x3574f0,
     neon: 0x56d6c9,
 };
+
+/**
+ * Sets every palette entry as a kebab-case CSS custom property, e.g. `gridAccent` -> `--grid-accent: #3574f0`.
+ */
+export function exposePaletteToCss(style = document.documentElement.style) {
+    for (const [name, value] of Object.entries(palette)) {
+        const property = `--${name.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)}`;
+        style.setProperty(property, `#${new Color(value).getHexString()}`);
+    }
+}

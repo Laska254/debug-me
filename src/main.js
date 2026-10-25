@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { palette } from "./theme.js";
+import { exposePaletteToCss, palette } from "./theme.js";
 import "./style.css";
 
 const MAX_PIXEL_RATIO = 2;
@@ -18,11 +18,7 @@ const PLACEHOLDER_DETAIL = 1;
 const PLACEHOLDER_SPIN_X = 0.2;
 const PLACEHOLDER_SPIN_Y = 0.3;
 
-// Expose the palette to CSS as custom properties, e.g. gridAccent -> --grid-accent.
-for (const [name, value] of Object.entries(palette)) {
-    const property = `--${name.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)}`;
-    document.documentElement.style.setProperty(property, `#${value.toString(16).padStart(6, "0")}`);
-}
+exposePaletteToCss();
 
 const container = document.querySelector("#app");
 
