@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { createDesktopControls } from "./desktop-controls.js";
 import { EYE_HEIGHT, Player } from "./player.js";
+import { addTestWall } from "./test-wall.js";
 import { exposePaletteToCss, palette } from "./theme.js";
 import "./style.css";
 
@@ -50,6 +51,7 @@ const player = new Player(camera);
 player.colliders.push(
     new THREE.Box3().setFromCenterAndSize(placeholder.position, new THREE.Vector3().setScalar(PLACEHOLDER_RADIUS * 2)),
 );
+addTestWall(scene, player.colliders);
 
 // Until the start screen and pause menu exist, one overlay starts the game and shows that it is paused.
 const overlay = document.querySelector("#overlay");
