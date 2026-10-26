@@ -65,7 +65,10 @@ export class Player {
 
         input.copy(this.move);
         if (input.lengthSq() > 1) input.normalize();
-        const speed = this.sprint ? WALK_SPEED * SPRINT_MULTIPLIER : WALK_SPEED;
+        let speed = WALK_SPEED;
+        if (this.sprint) {
+            speed *= SPRINT_MULTIPLIER;
+        }
         target
             .copy(right)
             .multiplyScalar(input.x * speed)
@@ -89,13 +92,13 @@ export class Player {
         const position = this.position;
         position[axis] += distance;
         for (const box of this.colliders) {
-            if (this.#overlaps(box)) {
-                position[axis] =
-                    distance > 0
-                        ? box.min[axis] - BODY_RADIUS - COLLISION_GAP
-                        : box.max[axis] + BODY_RADIUS + COLLISION_GAP;
-                this.#velocity[axis] = 0;
+            if (!this.#overlaps(box)) continue;
+            if (distance > 0) {
+                position[axis] = box.min[axis] - BODY_RADIUS - COLLISION_GAP;
+            } else {
+                position[axis] = box.max[axis] + BODY_RADIUS + COLLISION_GAP;
             }
+            this.#velocity[axis] = 0;
         }
     }
 
