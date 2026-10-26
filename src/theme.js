@@ -9,6 +9,11 @@ export const palette = {
     grid: 0x2b2d30,
     gridAccent: 0x3574f0,
     neon: 0x56d6c9,
+    // Darcula syntax colours, one per zone.
+    keyword: 0xcf8e6d,
+    field: 0xc77dbb,
+    string: 0x6aab73,
+    method: 0x56a8f5,
 };
 
 /**

@@ -91,6 +91,7 @@ Run the development server
 `npm run dev`
 
 Then open `http://localhost:5173/debug-me/`. The `/debug-me/` path matches the GitHub Pages address.
+On a slow GPU, add `?quality=low` to the address to turn the bloom off.
 
 Other scripts:
 
