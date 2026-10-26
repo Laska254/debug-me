@@ -27,12 +27,11 @@ export class Player {
     /** Wanted direction relative to the view: `x` strafes right, `y` walks forward. Longer than 1 counts as 1. */
     move = new Vector2();
     sprint = false;
-    /** When false the player stands still, e.g. while a UI panel is open. */
-    enabled = true;
     /** Walls as world-space `Box3`s. */
     colliders = [];
 
     #camera;
+    #enabled = true;
     #velocity = new Vector3();
 
     constructor(camera) {
@@ -44,11 +43,19 @@ export class Player {
         return this.#camera.position;
     }
 
+    /** When false the player stands still, e.g. while a UI panel is open or the game is paused. */
+    get enabled() {
+        return this.#enabled;
+    }
+
+    set enabled(enabled) {
+        this.#enabled = enabled;
+        // Stop at once, so the player doesn't carry the old speed into the next `update()`.
+        if (!enabled) this.#velocity.set(0, 0, 0);
+    }
+
     update(delta) {
-        if (!this.enabled) {
-            this.#velocity.set(0, 0, 0);
-            return;
-        }
+        if (!this.#enabled) return;
         delta = Math.min(delta, MAX_DELTA);
 
         // Only the yaw matters, so looking at the floor doesn't slow the player down.

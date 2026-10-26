@@ -62,10 +62,12 @@ const pointerLock = createDesktopControls(player, camera, renderer.domElement);
 overlay.addEventListener("click", () => pointerLock.lock());
 pointerLock.addEventListener("lock", () => {
     paused = false;
+    player.enabled = true;
     overlay.hidden = true;
 });
 pointerLock.addEventListener("unlock", () => {
     paused = true;
+    player.enabled = false;
     overlayTitle.textContent = "Paused. Click to resume";
     overlay.hidden = false;
     overlay.focus();
