@@ -19,9 +19,14 @@ body {
     height: 100%;
 }
 
-/* The game reads every touch itself: no pinch zoom, no scrolling and no text selection on a long press. */
-#app {
+/* The game reads every touch itself, so nothing pinch-zooms or scrolls, the overlays included. Otherwise a zoom on the
+   start screen would stay once the game takes over every touch. A scrollable panel can allow `pan-y` again. */
+body {
     touch-action: none;
+}
+
+/* No text selection on a long press. */
+#app {
     user-select: none;
     -webkit-user-select: none;
 }
