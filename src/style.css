@@ -19,6 +19,57 @@ body {
     height: 100%;
 }
 
+/* The game reads every touch itself: no pinch zoom, no scrolling and no text selection on a long press. */
+#app {
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Lets touches outside the joystick and the button reach the canvas. */
+.touch-controls {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+}
+
+.joystick,
+.action-button {
+    position: absolute;
+    bottom: calc(env(safe-area-inset-bottom) + 1.5rem);
+    border: 2px solid color-mix(in srgb, var(--neon) 60%, transparent);
+    background: color-mix(in srgb, var(--background) 50%, transparent);
+    pointer-events: auto;
+}
+
+/* `--joystick-radius` is set from `JOYSTICK_RADIUS` in `touch-controls.js`. */
+.joystick {
+    left: calc(env(safe-area-inset-left) + 1.5rem);
+    width: calc(var(--joystick-radius) * 2);
+    height: calc(var(--joystick-radius) * 2);
+    border-radius: 50%;
+}
+
+.joystick.sprinting {
+    border-color: var(--neon);
+    box-shadow: 0 0 1rem var(--neon);
+}
+
+.joystick-knob {
+    position: absolute;
+    inset: 25%;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--neon) 70%, transparent);
+}
+
+.action-button {
+    right: calc(env(safe-area-inset-right) + 1.5rem);
+    padding: 1rem 1.5rem;
+    border-radius: 2rem;
+    color: var(--neon);
+    font: inherit;
+}
+
 .overlay {
     position: fixed;
     inset: 0;

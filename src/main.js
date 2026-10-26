@@ -3,6 +3,7 @@ import { createDesktopControls } from "./desktop-controls.js";
 import { EYE_HEIGHT, Player } from "./player.js";
 import { addTestWall } from "./test-wall.js";
 import { exposePaletteToCss, palette } from "./theme.js";
+import { createTouchControls } from "./touch-controls.js";
 import "./style.css";
 
 const MAX_PIXEL_RATIO = 2;
@@ -56,33 +57,40 @@ addTestWall(scene, player.colliders);
 // Until the start screen and pause menu exist, one overlay starts the game and shows that it is paused.
 const overlay = document.querySelector("#overlay");
 const overlayTitle = overlay.querySelector(".overlay-title");
-// Touch screens have no pointer lock, so the overlay would never close. Until the touch controls exist (#4),
-// they skip it and just watch the scene.
-const isTouch = window.matchMedia("(pointer: coarse)").matches;
-if (!isTouch) {
-    overlay.hidden = false;
-    overlay.focus();
-}
+const overlayHint = overlay.querySelector(".overlay-hint");
+overlay.hidden = false;
+overlay.focus();
 
-let paused = !isTouch;
-const { pointerLock, lock } = createDesktopControls(player, camera, renderer.domElement);
-overlay.addEventListener("click", lock);
-// Chrome refuses the lock for about a second after `Esc`, and sandboxed iframes refuse it always.
-document.addEventListener("pointerlockerror", () => {
-    overlayTitle.textContent = "Couldn't capture the mouse. Click again";
-});
-pointerLock.addEventListener("lock", () => {
+let paused = true;
+const play = () => {
     paused = false;
     player.enabled = true;
     overlay.hidden = true;
-});
-pointerLock.addEventListener("unlock", () => {
-    paused = true;
-    player.enabled = false;
-    overlayTitle.textContent = "Paused. Click to resume";
-    overlay.hidden = false;
-    overlay.focus();
-});
+};
+
+// Detected by the main input, not the user agent, so a laptop with a touch screen keeps the mouse and keyboard.
+if (window.matchMedia("(pointer: coarse)").matches) {
+    createTouchControls(player, camera, renderer.domElement);
+    // No pointer lock and no `Esc` here, so one tap starts the game and nothing pauses it until the pause menu exists.
+    overlayTitle.textContent = "Tap to play";
+    overlayHint.textContent = "Left stick to move, push past its ring to walk faster, drag on the right half to look";
+    overlay.addEventListener("click", play);
+} else {
+    const { pointerLock, lock } = createDesktopControls(player, camera, renderer.domElement);
+    overlay.addEventListener("click", lock);
+    // Chrome refuses the lock for about a second after `Esc`, and sandboxed iframes refuse it always.
+    document.addEventListener("pointerlockerror", () => {
+        overlayTitle.textContent = "Couldn't capture the mouse. Click again";
+    });
+    pointerLock.addEventListener("lock", play);
+    pointerLock.addEventListener("unlock", () => {
+        paused = true;
+        player.enabled = false;
+        overlayTitle.textContent = "Paused. Click to resume";
+        overlay.hidden = false;
+        overlay.focus();
+    });
+}
 
 window.addEventListener("resize", () => {
     camera.aspect = window.innerWidth / window.innerHeight;
