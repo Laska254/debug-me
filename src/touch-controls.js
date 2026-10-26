@@ -2,6 +2,8 @@ import { Euler, MathUtils, Vector2 } from "three";
 
 // How far the knob travels from the centre, in CSS pixels. At the edge the player walks at full speed.
 const JOYSTICK_RADIUS = 56;
+// Gap between the screen edge (or the notch) and the joystick or the action button, in CSS pixels.
+const EDGE_MARGIN = 24;
 // The finger sprints once it is this many radii from the centre, past the ring, while the knob stays at the edge.
 const SPRINT_REACH = 1.5;
 // Radians per CSS pixel dragged.
@@ -23,6 +25,7 @@ export function createTouchControls(player, camera, domElement) {
     const root = document.createElement("div");
     root.className = "touch-controls";
     root.style.setProperty("--joystick-radius", `${JOYSTICK_RADIUS}px`);
+    root.style.setProperty("--edge-margin", `${EDGE_MARGIN}px`);
     root.innerHTML = `
         <div class="joystick"><div class="joystick-knob"></div></div>
         <button class="action-button" type="button" hidden>Inspect</button>

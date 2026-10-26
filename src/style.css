@@ -31,7 +31,8 @@ body {
     -webkit-user-select: none;
 }
 
-/* Lets touches outside the joystick and the button reach the canvas. */
+/* Lets touches outside the joystick and the button reach the canvas. `--joystick-radius` and `--edge-margin` are set
+   from `JOYSTICK_RADIUS` and `EDGE_MARGIN` in `touch-controls.js`. */
 .touch-controls {
     position: fixed;
     inset: 0;
@@ -41,15 +42,14 @@ body {
 .joystick,
 .action-button {
     position: absolute;
-    bottom: calc(env(safe-area-inset-bottom) + 1.5rem);
+    bottom: calc(env(safe-area-inset-bottom) + var(--edge-margin));
     border: 2px solid color-mix(in srgb, var(--neon) 60%, transparent);
     background: color-mix(in srgb, var(--background) 50%, transparent);
     pointer-events: auto;
 }
 
-/* `--joystick-radius` is set from `JOYSTICK_RADIUS` in `touch-controls.js`. */
 .joystick {
-    left: calc(env(safe-area-inset-left) + 1.5rem);
+    left: calc(env(safe-area-inset-left) + var(--edge-margin));
     width: calc(var(--joystick-radius) * 2);
     height: calc(var(--joystick-radius) * 2);
     border-radius: 50%;
@@ -68,7 +68,7 @@ body {
 }
 
 .action-button {
-    right: calc(env(safe-area-inset-right) + 1.5rem);
+    right: calc(env(safe-area-inset-right) + var(--edge-margin));
     padding: 1rem 1.5rem;
     border-radius: 2rem;
     color: var(--neon);
