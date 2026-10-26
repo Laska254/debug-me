@@ -15,7 +15,8 @@ const SPRINT_KEYS = ["ShiftLeft", "ShiftRight"];
 
 /**
  * Mouse look with pointer lock and keyboard movement for a `Player`.
- * Returns the `PointerLockControls`: call `lock()` from a click and listen for its `lock` / `unlock` events.
+ * Returns `lock`, to call from a click, and the `PointerLockControls`, whose `lock` / `unlock` events say when the
+ * game runs. A refused lock fires `pointerlockerror` on `document`.
  */
 export function createDesktopControls(player, camera, domElement) {
     const pointerLock = new PointerLockControls(camera, domElement);
@@ -48,5 +49,8 @@ export function createDesktopControls(player, camera, domElement) {
         updatePlayer();
     });
 
-    return pointerLock;
+    // Not `pointerLock.lock()`: it drops the promise, so a refused lock would show up as an unhandled rejection.
+    const lock = () => domElement.requestPointerLock()?.catch(() => {});
+
+    return { pointerLock, lock };
 }
