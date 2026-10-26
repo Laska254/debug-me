@@ -45,13 +45,13 @@ In a hurry? **Skip to CV** on the start screen goes straight to the Heap Dump.
 
 ### Controls
 
-| Action       | Desktop         | Touch                     |
-| ------------ | --------------- | ------------------------- |
-| Move         | `W` `A` `S` `D` | joystick (bottom left)    |
-| Look around  | mouse           | drag on the right half    |
-| Walk faster  | `Shift`         | push the joystick further |
-| Inspect      | `E`             | action button             |
-| Pause / menu | `Esc`           | pause button              |
+| Action       | Desktop                   | Touch                     |
+| ------------ | ------------------------- | ------------------------- |
+| Move         | `W` `A` `S` `D` or arrows | joystick (bottom left)    |
+| Look around  | mouse                     | drag on the right half    |
+| Walk faster  | `Shift`                   | push the joystick further |
+| Inspect      | `E`                       | action button             |
+| Pause / menu | `Esc`                     | pause button              |
 
 ---
 

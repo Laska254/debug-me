@@ -18,3 +18,27 @@ body {
     width: 100%;
     height: 100%;
 }
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    border: none;
+    background: color-mix(in srgb, var(--background) 80%, transparent);
+    color: var(--text);
+    font: inherit;
+    cursor: pointer;
+}
+
+.overlay[hidden] {
+    display: none;
+}
+
+.overlay-title {
+    color: var(--neon);
+    font-size: 1.5rem;
+}
