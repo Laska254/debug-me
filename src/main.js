@@ -59,7 +59,12 @@ overlay.focus();
 
 let paused = true;
 const pointerLock = createDesktopControls(player, camera, renderer.domElement);
-overlay.addEventListener("click", () => pointerLock.lock());
+// Called directly instead of `pointerLock.lock()` to catch the rejection, which the error handler below covers.
+overlay.addEventListener("click", () => renderer.domElement.requestPointerLock()?.catch(() => {}));
+// Chrome refuses the lock for about a second after `Esc`, and sandboxed iframes refuse it always.
+document.addEventListener("pointerlockerror", () => {
+    overlayTitle.textContent = "Couldn't capture the mouse. Click again";
+});
 pointerLock.addEventListener("lock", () => {
     paused = false;
     player.enabled = true;
