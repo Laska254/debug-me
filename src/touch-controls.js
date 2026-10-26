@@ -4,8 +4,9 @@ import { Euler, MathUtils, Vector2 } from "three";
 const JOYSTICK_RADIUS = 56;
 // Gap between the screen edge (or the notch) and the joystick or the action button, in CSS pixels.
 const EDGE_MARGIN = 24;
-// The finger sprints once it is this many radii from the centre, past the ring, while the knob stays at the edge.
-const SPRINT_REACH = 1.5;
+// How far from the centre the finger has to go to sprint, while the knob stays at the ring. Halfway between the ring and
+// the screen edge, so a finger can still reach it when pushing straight down or left.
+const SPRINT_DISTANCE = JOYSTICK_RADIUS + EDGE_MARGIN / 2;
 // Radians per CSS pixel dragged.
 const LOOK_SPEED = 0.006;
 // Straight up or down, the same limit as `PointerLockControls` on desktop.
@@ -39,7 +40,7 @@ export function createTouchControls(player, camera, domElement) {
 
     const moveStick = (event) => {
         offset.set(event.clientX - center.x, event.clientY - center.y);
-        player.sprint = offset.length() > JOYSTICK_RADIUS * SPRINT_REACH;
+        player.sprint = offset.length() > SPRINT_DISTANCE;
         joystick.classList.toggle("sprinting", player.sprint);
         offset.clampLength(0, JOYSTICK_RADIUS);
         knob.style.transform = `translate(${offset.x}px, ${offset.y}px)`;
