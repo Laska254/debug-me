@@ -2,6 +2,9 @@
 
 ![Three.js](https://img.shields.io/github/package-json/dependency-version/Laska254/debug-me/three?label=Three.js&color=black)
 ![Vite](https://img.shields.io/github/package-json/dependency-version/Laska254/debug-me/dev/vite?label=Vite&color=646cff)
+[![CI](https://github.com/Laska254/debug-me/actions/workflows/ci.yml/badge.svg)](https://github.com/Laska254/debug-me/actions/workflows/ci.yml)
+
+**Live demo: [laska254.github.io/debug-me](https://laska254.github.io/debug-me/)**
 
 ## Table of Contents
 
