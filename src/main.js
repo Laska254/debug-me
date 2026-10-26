@@ -54,10 +54,15 @@ player.colliders.push(
 // Until the start screen and pause menu exist, one overlay starts the game and shows that it is paused.
 const overlay = document.querySelector("#overlay");
 const overlayTitle = overlay.querySelector(".overlay-title");
-overlay.hidden = false;
-overlay.focus();
+// Touch screens have no pointer lock, so the overlay would never close. Until the touch controls exist (#4),
+// they skip it and just watch the scene.
+const isTouch = window.matchMedia("(pointer: coarse)").matches;
+if (!isTouch) {
+    overlay.hidden = false;
+    overlay.focus();
+}
 
-let paused = true;
+let paused = !isTouch;
 const pointerLock = createDesktopControls(player, camera, renderer.domElement);
 // Called directly instead of `pointerLock.lock()` to catch the rejection, which the error handler below covers.
 overlay.addEventListener("click", () => renderer.domElement.requestPointerLock()?.catch(() => {}));
